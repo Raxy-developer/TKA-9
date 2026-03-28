@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Belajar TKA – Kelas 9 SMP</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Sora:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --card: #111827;
+    --border: #1f2d45;
+    --accent: #00d4ff;
+    --accent2: #7c3aed;
+    --accent3: #f59e0b;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --success: #10b981;
+    --danger: #ef4444;
+    --radius: 16px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Sora', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  /* BG Grid */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 24px 16px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HEADER */
+  header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    border-radius: 100px;
+    padding: 4px 16px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    color: white;
+  }
+  header h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(28px, 6vw, 48px);
+    font-weight: 800;
+    background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--accent2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+  header p {
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 300;
+  }
+
+  /* MAPEL TABS */
+  .mapel-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  @media(min-width: 480px) { .mapel-grid { grid-template-columns: repeat(4, 1fr); } }
+  .mapel-btn {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 12px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    font-family: 'Sora', sans-serif;
+  }
+  .mapel-btn:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .mapel-btn.active {
+    border-color: var(--accent);
+    background: linear-gradient(135deg, rgba(0,212,255,0.08), rgba(124,58,237,0.08));
+    box-shadow: 0 0 24px rgba(0,212,255,0.15);
+  }
+  .mapel-icon { font-size: 28px; margin-bottom: 6px; }
+  .mapel-label { font-size: 12px; font-weight: 600; color: var(--text); }
+  .mapel-sub { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+  /* SUBTOPIK */
+  .section-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--muted);
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+  .subtopik-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  .subtopik-chip {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 100px;
+    padding: 6px 14px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: var(--muted);
+    font-family: 'Sora', sans-serif;
+  }
+  .subtopik-chip:hover { border-color: var(--accent); color: var(--accent); }
+  .subtopik-chip.active { background: var(--accent); border-color: var(--accent); color: #000; font-weight: 600; }
+
+  /* ACTION BUTTONS */
+  .action-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    flex: 1;
+    min-width: 140px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 14px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Sora', sans-serif;
+    transition: all 0.2s;
+    letter-spacing: 0.3px;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,212,255,0.25); }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .btn-secondary {
+    background: var(--card);
+    color: var(--text);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Sora', sans-serif;
+    transition: all 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--accent3); color: var(--accent3); }
+
+  /* SOAL CARD */
+  .soal-card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 16px;
+    animation: slideUp 0.3s ease;
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .soal-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .soal-num {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: white;
+    border-radius: 8px;
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .soal-meta { font-size: 11px; color: var(--muted); }
+  .soal-text {
+    font-size: 15px;
+    line-height: 1.7;
+    margin-bottom: 20px;
+    color: var(--text);
+  }
+  .opsi-list { display: flex; flex-direction: column; gap: 10px; }
+  .opsi-btn {
+    background: rgba(255,255,255,0.03);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text);
+    font-family: 'Sora', sans-serif;
+    transition: all 0.15s;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .opsi-btn:hover:not(:disabled) { border-color: var(--accent); background: rgba(0,212,255,0.05); }
+  .opsi-btn.benar { border-color: var(--success); background: rgba(16,185,129,0.1); color: var(--success); }
+  .opsi-btn.salah { border-color: var(--danger); background: rgba(239,68,68,0.1); color: var(--danger); }
+  .opsi-btn:disabled { cursor: default; }
+  .opsi-label {
+    font-weight: 700;
+    min-width: 20px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .pembahasan-box {
+    margin-top: 16px;
+    background: rgba(0,212,255,0.04);
+    border: 1.5px solid rgba(0,212,255,0.2);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #a5d8e0;
+    display: none;
+  }
+  .pembahasan-box.show { display: block; animation: slideUp 0.3s ease; }
+  .pembahasan-title { font-weight: 700; color: var(--accent); margin-bottom: 6px; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+
+  /* SKOR */
+  .skor-bar {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .skor-item { text-align: center; }
+  .skor-num { font-size: 28px; font-weight: 800; font-family: 'Space Grotesk', sans-serif; }
+  .skor-desc { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+  .skor-num.green { color: var(--success); }
+  .skor-num.red { color: var(--danger); }
+  .skor-num.blue { color: var(--accent); }
+
+  /* LOADING */
+  .loading-wrap {
+    text-align: center;
+    padding: 48px 24px;
+  }
+  .spinner {
+    width: 48px;
+    height: 48px;
+    border: 3px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 16px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-text { color: var(--muted); font-size: 14px; }
+
+  /* EMPTY STATE */
+  .empty-state {
+    text-align: center;
+    padding: 60px 24px;
+    color: var(--muted);
+  }
+  .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+  .empty-state p { font-size: 14px; line-height: 1.6; }
+
+  /* MATERI RINGKAS */
+  .materi-card {
+    background: linear-gradient(135deg, rgba(124,58,237,0.08), rgba(0,212,255,0.05));
+    border: 1.5px solid rgba(124,58,237,0.3);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    line-height: 1.8;
+    display: none;
+  }
+  .materi-card.show { display: block; animation: slideUp 0.3s ease; }
+  .materi-title { font-weight: 700; color: var(--accent2); margin-bottom: 10px; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
+
+  /* CHAT BOX */
+  .chat-wrap {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-top: 24px;
+  }
+  .chat-header {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .chat-messages {
+    padding: 20px;
+    min-height: 80px;
+    max-height: 240px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .chat-msg {
+    font-size: 13px;
+    line-height: 1.7;
+    animation: slideUp 0.2s ease;
+  }
+  .chat-msg.user { color: var(--accent3); font-weight: 600; }
+  .chat-msg.ai { color: var(--text); }
+  .chat-input-row {
+    display: flex;
+    border-top: 1px solid var(--border);
+  }
+  .chat-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 14px 16px;
+    color: var(--text);
+    font-size: 13px;
+    font-family: 'Sora', sans-serif;
+    outline: none;
+  }
+  .chat-input::placeholder { color: var(--muted); }
+  .chat-send {
+    background: var(--accent);
+    border: none;
+    color: #000;
+    padding: 0 20px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 13px;
+    font-family: 'Sora', sans-serif;
+    transition: opacity 0.15s;
+  }
+  .chat-send:hover { opacity: 0.85; }
+  .chat-send:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .tab-row {
+    display: flex;
+    gap: 0;
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 12px;
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Sora', sans-serif;
+    transition: all 0.15s;
+  }
+  .tab-btn.active { background: linear-gradient(135deg, var(--accent2), var(--accent)); color: white; }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="badge">AI-Powered</div>
+    <h1>Belajar TKA<br>Kelas 9 SMP</h1>
+    <p>Latihan soal + pembahasan otomatis dengan AI 🤖</p>
+  </header>
+
+  <!-- PILIH MAPEL -->
+  <div class="section-label">Pilih Mata Pelajaran</div>
+  <div class="mapel-grid" id="mapelGrid">
+    <div class="mapel-btn active" onclick="pilihMapel(this,'Matematika')" data-mapel="Matematika">
+      <div class="mapel-icon">📐</div>
+      <div class="mapel-label">Matematika</div>
+      <div class="mapel-sub">Aljabar, Geometri, Statistik</div>
+    </div>
+    <div class="mapel-btn" onclick="pilihMapel(this,'IPA')" data-mapel="IPA">
+      <div class="mapel-icon">🔬</div>
+      <div class="mapel-label">IPA</div>
+      <div class="mapel-sub">Fisika, Kimia, Biologi</div>
+    </div>
+    <div class="mapel-btn" onclick="pilihMapel(this,'Bahasa Indonesia')" data-mapel="Bahasa Indonesia">
+      <div class="mapel-icon">📖</div>
+      <div class="mapel-label">B. Indonesia</div>
+      <div class="mapel-sub">Teks, Sastra, EYD</div>
+    </div>
+    <div class="mapel-btn" onclick="pilihMapel(this,'IPS')" data-mapel="IPS">
+      <div class="mapel-icon">🌍</div>
+      <div class="mapel-label">IPS</div>
+      <div class="mapel-sub">Sejarah, Geografi, Ekonomi</div>
+    </div>
+  </div>
+
+  <!-- SUBTOPIK -->
+  <div class="section-label">Subtopik</div>
+  <div class="subtopik-wrap" id="subtopikWrap"></div>
+
+  <!-- TAB MODE -->
+  <div class="tab-row">
+    <button class="tab-btn active" onclick="setMode('latihan',this)">🎯 Latihan Soal</button>
+    <button class="tab-btn" onclick="setMode('materi',this)">📚 Ringkasan Materi</button>
+    <button class="tab-btn" onclick="setMode('tanya',this)">💬 Tanya AI</button>
+  </div>
+
+  <!-- SKOR BAR -->
+  <div class="skor-bar" id="skorBar" style="display:none">
+    <div class="skor-item"><div class="skor-num blue" id="skorTotal">0</div><div class="skor-desc">Total Soal</div></div>
+    <div class="skor-item"><div class="skor-num green" id="skorBenar">0</div><div class="skor-desc">Benar</div></div>
+    <div class="skor-item"><div class="skor-num red" id="skorSalah">0</div><div class="skor-desc">Salah</div></div>
+    <div class="skor-item"><div class="skor-num" id="skorPersen" style="color:var(--accent3)">0%</div><div class="skor-desc">Akurasi</div></div>
+  </div>
+
+  <!-- ACTION ROW (Latihan) -->
+  <div class="action-row" id="actionRow">
+    <button class="btn-primary" onclick="buatSoal()" id="btnBuat">⚡ Buat Soal Baru</button>
+    <button class="btn-secondary" onclick="resetSkor()">🔄 Reset Skor</button>
+  </div>
+
+  <!-- CONTENT AREA -->
+  <div id="contentArea">
+    <div class="empty-state">
+      <div class="icon">🎓</div>
+      <p>Pilih subtopik dan klik <strong>"Buat Soal Baru"</strong><br>untuk memulai latihan!</p>
+    </div>
+  </div>
+
+  <!-- CHAT (Tanya AI) -->
+  <div class="chat-wrap" id="chatWrap" style="display:none">
+    <div class="chat-header">🤖 Tanya Tutor AI</div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="chat-msg ai">Halo! Saya siap membantu kamu belajar. Tanyakan apa saja tentang materi kelas 9 SMP! 😊</div>
+    </div>
+    <div class="chat-input-row">
+      <input class="chat-input" id="chatInput" placeholder="Contoh: Jelaskan teorema Pythagoras..." onkeydown="if(event.key==='Enter')kirimChat()">
+      <button class="chat-send" id="chatSendBtn" onclick="kirimChat()">Kirim</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const MAPEL_SUBTOPIK = {
+  'Matematika': ['Aljabar Linear','Persamaan Kuadrat','Fungsi','Kesebangunan','Bangun Ruang','Statistik & Peluang','Bilangan Berpangkat','Pola Bilangan'],
+  'IPA': ['Listrik Statis','Listrik Dinamis','Kemagnetan','Bioteknologi','Pewarisan Sifat','Reproduksi Tumbuhan','Sistem Ekskresi','Partikel Materi'],
+  'Bahasa Indonesia': ['Teks Laporan Percobaan','Teks Pidato','Cerpen','Puisi','Iklan','Surat Resmi','Kalimat Efektif','EYD & PUEBI'],
+  'IPS': ['Masa Pergerakan Nasional','Proklamasi Kemerdekaan','Letak Geografis Indonesia','Sumber Daya Alam','Perdagangan Internasional','Globalisasi','Lembaga Sosial','Dinamika Kependudukan'],
+};
+
+let selectedMapel = 'Matematika';
+let selectedSubtopik = 'Aljabar Linear';
+let mode = 'latihan';
+let skor = { total: 0, benar: 0, salah: 0 };
+let soalQueue = [];
+
+function pilihMapel(el, mapel) {
+  document.querySelectorAll('.mapel-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  selectedMapel = mapel;
+  renderSubtopik();
+  clearContent();
+}
+
+function renderSubtopik() {
+  const wrap = document.getElementById('subtopikWrap');
+  const subtopiks = MAPEL_SUBTOPIK[selectedMapel] || [];
+  selectedSubtopik = subtopiks[0] || '';
+  wrap.innerHTML = subtopiks.map((s,i) =>
+    `<div class="subtopik-chip ${i===0?'active':''}" onclick="pilihSubtopik(this,'${s}')">${s}</div>`
+  ).join('');
+}
+
+function pilihSubtopik(el, s) {
+  document.querySelectorAll('.subtopik-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  selectedSubtopik = s;
+  clearContent();
+}
+
+function setMode(m, btn) {
+  mode = m;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('actionRow').style.display = m === 'latihan' ? 'flex' : 'none';
+  document.getElementById('chatWrap').style.display = m === 'tanya' ? 'block' : 'none';
+  if (m === 'latihan') {
+    clearContent();
+  } else if (m === 'materi') {
+    tampilMateri();
+  } else {
+    document.getElementById('contentArea').innerHTML = '';
+  }
+}
+
+function clearContent() {
+  document.getElementById('contentArea').innerHTML = `
+    <div class="empty-state">
+      <div class="icon">🎓</div>
+      <p>Pilih subtopik dan klik <strong>"Buat Soal Baru"</strong><br>untuk memulai latihan!</p>
+    </div>`;
+}
+
+function updateSkor() {
+  const bar = document.getElementById('skorBar');
+  bar.style.display = 'flex';
+  document.getElementById('skorTotal').textContent = skor.total;
+  document.getElementById('skorBenar').textContent = skor.benar;
+  document.getElementById('skorSalah').textContent = skor.salah;
+  const pct = skor.total > 0 ? Math.round((skor.benar / skor.total) * 100) : 0;
+  document.getElementById('skorPersen').textContent = pct + '%';
+}
+
+function resetSkor() {
+  skor = { total: 0, benar: 0, salah: 0 };
+  document.getElementById('skorBar').style.display = 'none';
+  clearContent();
+}
+
+async function callClaude(prompt, systemMsg) {
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1000,
+      system: systemMsg,
+      messages: [{ role: 'user', content: prompt }]
+    })
+  });
+  const data = await res.json();
+  return data.content?.map(c => c.text || '').join('') || '';
+}
+
+async function buatSoal() {
+  const btn = document.getElementById('btnBuat');
+  btn.disabled = true;
+  btn.textContent = '⏳ Membuat soal...';
+
+  document.getElementById('contentArea').innerHTML = `
+    <div class="loading-wrap">
+      <div class="spinner"></div>
+      <div class="loading-text">AI sedang membuat soal ${selectedSubtopik}...</div>
+    </div>`;
+
+  const systemMsg = `Kamu adalah guru TKA kelas 9 SMP Indonesia yang ahli membuat soal pilihan ganda. 
+Selalu jawab HANYA dalam format JSON valid, tidak ada teks lain di luar JSON.`;
+
+  const prompt = `Buat 3 soal pilihan ganda tentang "${selectedSubtopik}" untuk mata pelajaran "${selectedMapel}" kelas 9 SMP tingkat menengah.
+
+Format JSON:
+[
+  {
+    "soal": "Teks soal lengkap",
+    "opsi": { "A": "...", "B": "...", "C": "...", "D": "..." },
+    "jawaban": "A",
+    "pembahasan": "Penjelasan singkat mengapa jawaban benar dan opsi lain salah"
+  }
+]
+
+Soal harus sesuai kurikulum Merdeka Belajar, kontekstual, dan menguji pemahaman bukan hapalan.`;
+
+  try {
+    const raw = await callClaude(prompt, systemMsg);
+    const clean = raw.replace(/```json|```/g,'').trim();
+    const soals = JSON.parse(clean);
+    renderSoal(soals);
+  } catch(e) {
+    document.getElementById('contentArea').innerHTML = `
+      <div class="empty-state">
+        <div class="icon">⚠️</div>
+        <p>Gagal membuat soal. Coba lagi!</p>
+      </div>`;
+  }
+
+  btn.disabled = false;
+  btn.textContent = '⚡ Buat Soal Baru';
+}
+
+function renderSoal(soals) {
+  skor.total += soals.length;
+  updateSkor();
+
+  let html = '';
+  soals.forEach((s, i) => {
+    const id = 'soal_' + Date.now() + '_' + i;
+    const opsiKeys = Object.keys(s.opsi);
+    html += `
+      <div class="soal-card" id="${id}">
+        <div class="soal-header">
+          <div class="soal-num">${skor.total - soals.length + i + 1}</div>
+          <div><div style="font-weight:600;font-size:14px">${selectedMapel} – ${selectedSubtopik}</div><div class="soal-meta">Pilihan Ganda</div></div>
+        </div>
+        <div class="soal-text">${s.soal}</div>
+        <div class="opsi-list">
+          ${opsiKeys.map(k => `
+            <button class="opsi-btn" onclick="pilihJawaban('${id}','${k}','${s.jawaban}',this,${soals.length})">
+              <span class="opsi-label">${k}.</span>
+              <span>${s.opsi[k]}</span>
+            </button>
+          `).join('')}
+        </div>
+        <div class="pembahasan-box" id="pb_${id}">
+          <div class="pembahasan-title">💡 Pembahasan</div>
+          ${s.pembahasan}
+        </div>
+      </div>`;
+  });
+
+  document.getElementById('contentArea').innerHTML = html;
+}
+
+function pilihJawaban(soalId, pilihan, jawaban, btn, totalInSet) {
+  const card = document.getElementById(soalId);
+  const allBtns = card.querySelectorAll('.opsi-btn');
+  allBtns.forEach(b => b.disabled = true);
+
+  if (pilihan === jawaban) {
+    btn.classList.add('benar');
+    skor.benar++;
+  } else {
+    btn.classList.add('salah');
+    skor.salah++;
+    allBtns.forEach(b => {
+      const label = b.querySelector('.opsi-label').textContent.replace('.','');
+      if (label === jawaban) b.classList.add('benar');
+    });
+  }
+
+  document.getElementById('pb_' + soalId).classList.add('show');
+  updateSkor();
+}
+
+async function tampilMateri() {
+  document.getElementById('contentArea').innerHTML = `
+    <div class="loading-wrap">
+      <div class="spinner"></div>
+      <div class="loading-text">AI sedang merangkum materi ${selectedSubtopik}...</div>
+    </div>`;
+
+  const systemMsg = 'Kamu adalah guru kelas 9 SMP Indonesia. Jawab HANYA dengan teks ringkasan materi, pakai format rapi dengan poin-poin pendek. Gunakan bahasa Indonesia yang mudah dipahami.';
+  const prompt = `Buat ringkasan materi "${selectedSubtopik}" untuk pelajaran "${selectedMapel}" kelas 9 SMP. Sertakan: konsep utama, rumus/aturan penting (jika ada), dan 1-2 contoh aplikasi. Maksimal 300 kata.`;
+
+  try {
+    const teks = await callClaude(prompt, systemMsg);
+    document.getElementById('contentArea').innerHTML = `
+      <div class="materi-card show">
+        <div class="materi-title">📚 Ringkasan: ${selectedSubtopik}</div>
+        <div style="white-space:pre-wrap">${teks}</div>
+      </div>`;
+  } catch(e) {
+    document.getElementById('contentArea').innerHTML = `<div class="empty-state"><div class="icon">⚠️</div><p>Gagal memuat materi.</p></div>`;
+  }
+}
+
+async function kirimChat() {
+  const input = document.getElementById('chatInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+
+  const messages = document.getElementById('chatMessages');
+  messages.innerHTML += `<div class="chat-msg user">Kamu: ${msg}</div>`;
+  input.value = '';
+  input.disabled = true;
+  document.getElementById('chatSendBtn').disabled = true;
+  messages.innerHTML += `<div class="chat-msg ai" id="aiTyping">⏳ AI sedang menjawab...</div>`;
+  messages.scrollTop = messages.scrollHeight;
+
+  const systemMsg = `Kamu adalah tutor pelajaran kelas 9 SMP Indonesia yang ramah dan sabar. 
+Konteks: siswa sedang belajar ${selectedMapel}, topik ${selectedSubtopik}.
+Jawab dengan bahasa Indonesia yang mudah dimengerti siswa SMP. Singkat namun jelas.`;
+
+  try {
+    const jawaban = await callClaude(msg, systemMsg);
+    document.getElementById('aiTyping').textContent = '🤖 Tutor AI: ' + jawaban;
+  } catch(e) {
+    document.getElementById('aiTyping').textContent = '⚠️ Gagal menjawab. Coba lagi!';
+  }
+
+  messages.scrollTop = messages.scrollHeight;
+  input.disabled = false;
+  document.getElementById('chatSendBtn').disabled = false;
+  input.focus();
+}
+
+// INIT
+renderSubtopik();
+</script>
+</body>
+</html>
